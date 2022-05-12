@@ -1,6 +1,7 @@
 const express = require('express');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
+const jwt= require('jsonwebtoken')
 require('dotenv').config();
 const app = express()
 const port = process.env.PORT || 5000;
@@ -9,7 +10,6 @@ const port = process.env.PORT || 5000;
 
 app.use(cors())
 app.use(express.json());
-
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jgbqt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -20,7 +20,17 @@ async function run() {
         await client.connect();
         const productCollection = client.db('shipon-laptop').collection('laptop-products')
         const userEmailCollection = client.db("UserEmail").collection("emailProduct");
-        //get
+         
+        //jwt auth token
+        app.get('/login', async (req, res) => {
+            const user = req.body;
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '1d'
+            });
+            res.send({accessToken})
+        })
+
+        //get product api
         app.get('/product', async (req, res) => {
             const query = {};
             const cursor = productCollection.find(query)
