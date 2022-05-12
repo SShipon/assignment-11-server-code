@@ -49,14 +49,14 @@ async function run() {
   })
 
    // item api
-    app.get("/item", async (req, res) => {
+    app.get("/product", async (req, res) => {
       const query = {};
       const cursor = productCollection.find(query);
       const items = await cursor.toArray();
       res.send(items);
     });
 
-    app.get('/item/:id',async(req, res)=>{
+    app.get('/product/:id',async(req, res)=>{
         const id = req.params.id;
         const query={_id: ObjectId(id)};
         const item = await productCollection.findOne(query);
@@ -79,7 +79,7 @@ async function run() {
      })
 
     //post api
-    app.post('/item', async(req, res)=>{
+    app.post('/product', async(req, res)=>{
       const newItem = req.body;
       const tokenInfo = req.headers.authorization;
       console.log(tokenInfo)
@@ -89,7 +89,7 @@ async function run() {
 
 
     //Delete Api
-    app.delete('/item/:id', async(req, res)=>{
+    app.delete('/product/:id', async(req, res)=>{
       const id = req.params.id;
       const query = {_id: ObjectId(id)};
       const result = await productCollection.deleteOne(query);
@@ -129,9 +129,9 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("running my server");
+  res.send("running my server server running shipon");
 });
 
 app.listen(port, () => {
-  console.log("Listening to port", port);
+  console.log("Listening to port running", port);
 });
