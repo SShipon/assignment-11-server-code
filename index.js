@@ -29,11 +29,12 @@ app.use(express.json());
     
    }
 
-   // test
+   // test url link 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jgbqt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
+//  try finally function
 
 async function run() {
   try {
@@ -95,7 +96,7 @@ async function run() {
       res.send(result);
     })
 
-    //Delete MyItem api
+    //Delete product items api
     app.delete('/myItems/:id', async(req, res)=>{
       const id = req.params.id;
       const query = {_id: ObjectId(id)};
